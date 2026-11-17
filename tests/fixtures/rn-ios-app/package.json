@@ -1,0 +1,11 @@
+{
+  "name": "chatpal",
+  "description": "AI chat companion app with premium subscription",
+  "dependencies": {
+    "react-native": "0.76.0",
+    "@react-native-firebase/auth": "21.0.0",
+    "react-native-purchases": "8.0.0",
+    "react-native-google-mobile-ads": "14.0.0",
+    "openai": "4.0.0"
+  }
+}

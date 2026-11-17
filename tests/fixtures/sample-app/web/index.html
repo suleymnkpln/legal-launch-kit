@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <title>Örnek Mağaza</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ABCDEF1234"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-ABCDEF1234');
+  </script>
+</head>
+<body>
+  <form action="/api/contact" method="post">
+    <input type="email" name="email" required>
+    <input type="text" name="tckn" placeholder="TC Kimlik No">
+    <label><input type="checkbox" name="newsletter" checked> Kampanyalardan haberdar olmak istiyorum</label>
+    <button type="submit">Gönder</button>
+  </form>
+  <footer>
+    <a href="/gizlilik-politikasi">Gizlilik Politikası</a>
+    <a href="https://ec.europa.eu/consumers/odr">ODR</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,6 @@
+name: sample_app
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_auth: ^5.0.0
+  google_mobile_ads: ^5.0.0
