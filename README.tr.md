@@ -1,10 +1,8 @@
 <div align="center">
 
-# ⚖️ legal-launch-kit
+<img src="assets/cover-tr.png" alt="legal-launch-kit: uygulaman yayından önce hangi yasal sayfalara ihtiyaç duyuyor?" width="100%">
 
-**Web siten veya uygulaman yayına çıkmadan önce yasal olarak *gerçekten* hangi sayfalara ve özelliklere ihtiyaç duyuyor? Genel bir liste değil, senin projen için cevap.**
-
-Türkiye 🇹🇷 · AB 🇪🇺 · ABD 🇺🇸 · App Store · Google Play
+**Genel bir liste değil, senin projen için cevap.** · Türkiye 🇹🇷 · AB 🇪🇺 · ABD 🇺🇸 · App Store · Google Play
 
 [English](README.md) · [Matris](skills/legal-launch-audit/references/matrix.md) · [Kontrol listeleri](checklists/tr) · [Şablonlar](templates) · [Örnek rapor](examples/sample-report.md)
 
@@ -24,11 +22,6 @@ Türkiye 🇹🇷 · AB 🇪🇺 · ABD 🇺🇸 · App Store · Google Play
 | 🧭 **Gereklilik matrisi** | Her yasal madde × 7 proje tipi: *Zorunlu / Koşullu / Önerilen / Gereksiz / Kaçın*, resmi kaynaklarıyla | Herkes |
 | 🔎 **Tarayıcı** | `detect.py` kodunu (web, Flutter, Android, iOS, React Native) tarar. Takip kodlarını, reklam SDK'larını, üyeliği, ödemeyi, yapay zekâyı, izinleri ve yasal sayfaları `dosya:satır` kanıtıyla listeler | Geliştiriciler |
 | 🤖 **Agent skill** | `legal-launch-audit` taramayı ve matrisi öncelik sıralı bir denetim raporuna (✅ ❌ ⚠️ ➖ ❓ 🗑️) çevirir, onay verirsen düzeltir | Yapay zekâ kod asistanı kullananlar |
-
-<p align="center">
-  <img src="assets/tanitim-tr.png" width="49%" alt="legal-launch-kit tanıtım">
-  <img src="assets/ornek-rapor-tr.png" width="49%" alt="Örnek yasal yayın denetimi raporu">
-</p>
 
 ## Hızlı başlangıç
 
@@ -78,6 +71,10 @@ npx skills add suleymnkpln/legal-launch-kit
 Sonra asistana şunu yaz:
 
 > Bu projeyi yayın öncesi yasal açıdan denetle. Hedef pazar Türkiye ve AB, dijital abonelik satıyoruz.
+
+Sonuçta şöyle bir rapor alırsın ([tam örnek](examples/sample-report.md)):
+
+<p align="center"><img src="assets/ornek-rapor-tr.png" alt="Örnek yasal yayın denetimi raporu" width="640"></p>
 
 ## Kapsam (özet)
 

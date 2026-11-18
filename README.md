@@ -1,10 +1,8 @@
 <div align="center">
 
-# ⚖️ legal-launch-kit
+<img src="assets/cover.png" alt="legal-launch-kit: what legal pages does your app actually need before launch?" width="100%">
 
-**What legal pages and features does *your* website or app actually need before launch? Not a generic list, but the answer for your project.**
-
-Türkiye 🇹🇷 · EU 🇪🇺 · US 🇺🇸 · App Store · Google Play
+**Not a generic list, but the answer for your project.** · Türkiye 🇹🇷 · EU 🇪🇺 · US 🇺🇸 · App Store · Google Play
 
 🇹🇷 *Türkçe açıklama için:* **[README.tr.md](README.tr.md)**
 
@@ -28,11 +26,6 @@ Most "legal checklist for your website" posts give everyone the same 20 items. T
 | 🧭 **Requirement matrix** | Every legal item × 7 project types, marked *Required / Conditional / Optional / Not needed / Avoid*, with official sources | Everyone |
 | 🔎 **Detector** | `detect.py` scans your code (web, Flutter, Android, iOS, React Native) for trackers, ad SDKs, accounts, payments, AI, permissions and legal pages, with `file:line` evidence | Developers |
 | 🤖 **Agent skill** | `legal-launch-audit` turns the scan + matrix into a prioritised audit report (✅ ❌ ⚠️ ➖ ❓ 🗑️) and, after your approval, fixes | Anyone using an AI coding agent |
-
-<p align="center">
-  <img src="assets/overview-en.png" width="49%" alt="legal-launch-kit overview">
-  <img src="assets/sample-report-en.png" width="49%" alt="Sample legal launch audit report">
-</p>
 
 ## Quick start
 
@@ -115,6 +108,8 @@ Then ask your agent:
 > Audit this project for launch: markets Türkiye and EU, we sell digital subscriptions.
 
 You get the report described in [report-format.md](skills/legal-launch-audit/references/report-format.md). See a full [sample report](examples/sample-report.md).
+
+<p align="center"><img src="assets/sample-report-en.png" alt="Sample legal launch audit report" width="640"></p>
 
 ## What it covers
 
