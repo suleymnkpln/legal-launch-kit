@@ -23,7 +23,7 @@ import re
 import sys
 from pathlib import Path
 
-VERSION = "0.3.0"
+VERSION = "0.3.1"
 
 SKIP_DIRS = {
     ".git", ".hg", ".svn", "node_modules", "bower_components", ".next", ".nuxt",
@@ -47,6 +47,7 @@ SPECIAL_NAMES = {
     "pubspec.yaml", "package.json", "build.gradle", "build.gradle.kts",
     "PrivacyInfo.xcprivacy", "Cartfile", "Package.swift", "app.json",
     "capacitor.config.json", "netlify.toml", "vercel.json", "firebase.json",
+    ".htaccess", "nginx.conf", "_redirects", "web.config",
 }
 
 SKIP_FILE_RE = re.compile(
@@ -128,7 +129,7 @@ SIGNALS = [
 
     # Money
     ("payment_gateway", "payments", "Payment gateway (Stripe, iyzico, PayTR, Paddle, PayPal, Adyen…)",
-     rx(r"stripe|iyzico|iyzipay|paytr|paddle|lemonsqueezy|braintree|paypal|adyen|mollie|razorpay|craftgate|sipay|parampos|shopier|shopify")),
+     rx(r"\bstripe\b|@stripe/|js\.stripe\.com|iyzico|iyzipay|\bpaytr\b|\bpaddle\.(com|js)|@paddle/|lemonsqueezy|braintree|paypal|\badyen\b|\bmollie\b|razorpay|craftgate|\bsipay\b|parampos|shopier|shopify")),
     ("in_app_purchase", "payments", "In-app purchases / store billing",
      rx(r"in_app_purchase|purchases_flutter|RevenueCat|react-native-purchases|react-native-iap|StoreKit|SKPaymentQueue|BillingClient|com\.android\.billingclient")),
     ("subscription", "subscriptions", "Auto-renewing subscription logic",
@@ -136,13 +137,13 @@ SIGNALS = [
     ("discount_claims", "pricing", "Discount / strike-through price UI",
      rx(r"line-through|old[_-]?price|compare[_-]?at[_-]?price|" + tr("indirim") + r"|discount[_-]?percent|% ?off\b")),
     ("reviews", "reviews", "Customer reviews / ratings UI",
-     rx(r"\breviews?\b.*\b(rating|stars?)\b|RatingBar|star[_-]?rating|" + tr("yorumlar") + r"|" + tr("değerlendirme"))),
+     rx(r"RatingBar|star[_-]?rating|review[_-]?(list|form|count|stars|card)|reviews?Collection|aggregateRating|<Reviews?\b")),
 
     # Messaging
     ("marketing_email_sms", "marketing_messages", "Email/SMS marketing provider (Mailchimp, Brevo, Klaviyo, SendGrid, Netgsm, İleti Merkezi, Twilio…)",
      rx(r"mailchimp|sendinblue|brevo|klaviyo|sendgrid|mailerlite|convertkit|netgsm|iletimerkezi|twilio|vonage|nexmo|mutlucell|jetsms|verimor")),
     ("newsletter_optin", "marketing_messages", "Newsletter / campaign opt-in UI",
-     rx(r"newsletter|" + tr("bülten") + r"|" + tr("kampanyalardan") + r"|marketing[_ ]?(emails?|consent)|" + tr("ticari elektronik ileti"))),
+     rx(r"newsletter|" + tr("e-bülten") + r"|" + tr("bültene abone") + r"|" + tr("kampanyalardan") + r"|marketing[_ ]?(emails?|consent)|" + tr("ticari elektronik ileti"))),
     ("push", "push", "Push notifications (FCM, OneSignal, APNs)",
      rx(r"firebase_messaging|FirebaseMessaging|@react-native-firebase/messaging|onesignal|UNUserNotificationCenter|POST_NOTIFICATIONS")),
 
@@ -154,7 +155,7 @@ SIGNALS = [
     ("pii_national_id", "pii_overcollection", "National ID (TCKN) field",
      rx(r"\btckn\b|tc[_ ]?kimlik|kimlik[_ ]?no|identityNumber|nationalId|national_id")),
     ("pii_birthdate", "pii_overcollection", "Birth date field",
-     rx(r"birth[_-]?date|date[_-]?of[_-]?birth|\bdob\b|" + tr("doğum tarihi") + r"|dogum_?tarihi")),
+     rx(r"\b(birth_?date|birthDate|date_?of_?birth|dateOfBirth|dob|dogum_?tarihi|dogumTarihi)\b")),
     ("special_category", "special_category", "Possible special-category data (health, biometrics, religion, sexual life)",
      rx(r"HealthKit|health_connect|androidx\.health|health[_-]?data|medical[_-]?record|diagnos(is|e)|blood[_-]?type|kan[_-]?grubu|" + tr("teşhis") + r"|religion|sexual[_-]?orientation|pregnan|menstrua")),
 
@@ -180,7 +181,7 @@ SIGNALS = [
 
     # Social features (TR under-15 rules, UK Online Safety Act, store UGC rules)
     ("social_features", "social", "Social features (followers, friends, direct messages, chat, live streaming)",
-     rx(r"followers?\b|follow[_-]?user|friend[_-]?request|addFriend|direct[_-]?message|chat[_-]?room|ChatScreen|ChatPage|conversations?Collection|live[_-]?stream|LiveStream|" + tr("takipçi") + r"|" + tr("arkadaş ekle") + r"|" + tr("mesajlar"))),
+     rx(r"followers?\b|follow[_-]?user|friend[_-]?request|addFriend|direct[_-]?message|chat[_-]?room|ChatScreen|ChatPage|conversations?Collection|live[_-]?stream|LiveStream|" + tr("takipçi") + r"|" + tr("arkadaş ekle"))),
 
     # Children
     ("children", "children", "Child-directed configuration",
@@ -193,6 +194,8 @@ SIGNALS = [
     # Security / outdated items
     ("cleartext", "security", "Cleartext HTTP allowed or used",
      rx(r"usesCleartextTraffic=[\"']true|NSAllowsArbitraryLoads</key>\s*<true|[\"']http://(?!localhost|127\.|0\.0\.0\.0|10\.|192\.168\.|www\.w3\.org|schemas|xmlns|ns\.adobe|purl\.org|json-schema)[a-z0-9]")),
+    ("https_redirect", "https", "HTTP→HTTPS redirect rule",
+     rx(r"RewriteCond\s+%\{HTTPS\}\s+(off|!on)|RewriteCond\s+%\{SERVER_PORT\}\s+80|X-Forwarded-Proto|return\s+301\s+https://|forceHTTPS|force_https|enforce_https")),
     ("odr_link", "outdated", "Link to the closed EU ODR platform",
      rx(r"ec\.europa\.eu/(odr|consumers/odr)|consumer-redress/odr")),
 ]
@@ -203,7 +206,7 @@ LEGAL_PAGES = {
     "privacy_policy": ("Privacy policy", rx(r"privacy|" + tr("gizlilik") + r"|datenschutz|polityka-prywatnosci")),
     "kvkk_notice": ("KVKK privacy notice (aydınlatma metni)", rx(r"\bkvkk\b|" + tr("aydınlatma"))),
     "cookie_policy": ("Cookie policy", rx(r"cookie[-_ ]?polic|" + tr("çerez"))),
-    "terms": ("Terms of use / service", rx(r"terms[-_ ]?(of[-_ ]?)?(use|service)|\btos\b|\beula\b|" + tr("kullanım koşulları") + r"|kullanim[-_]kosullari|" + tr("üyelik sözleşmesi"))),
+    "terms": ("Terms of use / service", rx(r"terms[-_ ]?(of[-_ ]?)?(use|service)|[\"'/]terms/?[\"']|[\"'/]kosullar/?[\"']|\btos\b|\beula\b|" + tr("kullanım koşulları") + r"|kullanim[-_]kosullari|" + tr("üyelik sözleşmesi"))),
     "distance_sales": ("Distance sales contract (mesafeli satış)", rx(tr("mesafeli")) ),
     "pre_contract": ("Pre-contract information form (ön bilgilendirme)", rx(tr("ön bilgilendirme") + r"|on[-_]?bilgilendirme")),
     "withdrawal_returns": ("Withdrawal / returns / refund policy", rx(r"refund|returns?[-_ ]?polic|withdraw|" + tr("iade") + r"|" + tr("cayma"))),
@@ -213,7 +216,7 @@ LEGAL_PAGES = {
 }
 
 CONTENT_PAGE_HINT = re.compile(
-    r"(href|to|path|route|url|link|name|title)\s*[:=]\s*[\"'{(]|<a\b|<Link\b|<title>|<h1|Navigator|GoRoute|routes",
+    r"(href|to|path|route|url|link|name|title)\s*[:=]\s*[\"'{(]|<a\b|<Link\b|<title>|<h1|Navigator|GoRoute|routes|\[\s*[\"'][a-z-]+[\"']\s*,",
     re.I,
 )
 
@@ -223,12 +226,12 @@ SECTOR_HINTS = {
     "health_fitness": rx(r"healthkit|health_connect|workout|fitness|calorie|" + tr("kalori") + r"|heart[_-]?rate|" + tr("nabız") + r"|menstrua|period[_-]?track|pregnan|" + tr("hamile") + r"|\bdiet\b|" + tr("diyet") + r"|therapy|" + tr("terapi") + r"|meditation|symptom"),
     "finance_crypto": rx(r"\bwallet\b|" + tr("cüzdan") + r"|\bloan\b|\bkredi\b|\binvest|" + tr("yatırım") + r"|crypto|kripto|bitcoin|\btrading\b|borsa|insurance|sigorta|\biban\b"),
     "kids_education": rx(r"\bkids?\b|" + tr("çocuk") + r"|preschool|parental[_-]?(gate|control)|homework|" + tr("ödev")),
-    "dating": rx(r"\bdating\b|" + tr("flört") + r"|swipe[_-]?(left|right)|" + tr("eşleşme")),
+    "dating": rx(r"\bdating\b|" + tr("flört") + r"|swipe[_-]?(left|right)"),
     "gambling": rx(r"\bbet(ting|s)?\b|bahis|casino|kumar|lottery|piyango|loot[_-]?box|sweepstake|" + tr("çekiliş")),
     "delivery_booking": rx(r"courier|kurye|ride[_-]?(hailing|share)|booking|rezervasyon|reservation|appointment|randevu"),
     "location_tracking": rx(r"ACCESS_BACKGROUND_LOCATION|background[_-]?location|location[_-]?tracking|geofenc|" + tr("konum takibi")),
     "iot_hardware": rx(r"flutter_blue|react-native-ble|CoreBluetooth|BluetoothGatt|\bmqtt\b|esp32|arduino"),
-    "restricted_goods": rx(r"alcohol|alkol|\bwine\b|" + tr("şarap") + r"|\bbeer\b|tobacco|" + tr("tütün") + r"|\bvape\b|pharmacy|eczane|supplement|takviye"),
+    "restricted_goods": rx(r"alcohol|alkol|\bwine\b|" + tr("şarap") + r"|\bbeer\b|tobacco|" + tr("tütün") + r"|\bvape\b|pharmacy|eczane|\bsupplements?\b|takviye"),
 }
 
 SUMMARY_PATTERNS = [
@@ -239,6 +242,19 @@ SUMMARY_PATTERNS = [
     ("Info.plist", rx(r"<key>(CFBundleDisplayName|CFBundleName)</key>\s*<string>([^<]{1,120})</string>")),
     ("*.html", rx(r'<(title)>([^<]{1,200})</title>|<meta\s+name="(description)"\s+content="([^"]{1,300})"')),
 ]
+
+DOC_SUFFIXES = {".md", ".mdx", ".txt"}
+
+
+def looks_like_prose(line: str) -> bool:
+    """Long natural-language lines (privacy texts, translations) mention
+    features without implementing them. Skip them for code signals."""
+    if len(line) < 200:
+        return False
+    if re.search(r"<script|src=[\"'][^\"']+\.js|https?://\S+\.(js|php)\b", line):
+        return False
+    return line.count(" ") / len(line) > 0.1
+
 
 PAGE_SUFFIXES = {
     ".html", ".htm", ".php", ".astro", ".vue", ".svelte", ".jsx", ".tsx", ".js",
@@ -301,12 +317,19 @@ def detect_platforms(rel_paths: list[str], contents_hint: dict[str, str]) -> lis
     if "Info.plist" in names or "Podfile" in names or any(".xcodeproj" in p for p in lower) or any(p.endswith(".swift") for p in lower):
         plats.add("ios")
     pkg = contents_hint.get("package.json", "")
-    if "react-native" in pkg or "expo" in pkg:
+    deps: set[str] = set()
+    try:
+        data = json.loads(pkg) if pkg else {}
+        for k in ("dependencies", "devDependencies", "peerDependencies"):
+            deps.update((data.get(k) or {}).keys())
+    except ValueError:
+        pass
+    if "react-native" in deps or "expo" in deps:
         plats.add("react-native")
-    if "@capacitor" in pkg or "capacitor.config.json" in names:
+    if any(d.startswith("@capacitor/") for d in deps) or "capacitor.config.json" in names:
         plats.add("capacitor")
-    web_markers = ("next", "nuxt", "astro", "vite", "react-dom", "vue", "svelte", "gatsby", "remix", "angular")
-    if any(p.endswith((".html", ".htm", ".php", ".astro", ".vue", ".svelte")) for p in lower) or any(f'"{m}' in pkg for m in web_markers):
+    web_markers = {"next", "nuxt", "astro", "vite", "react-dom", "vue", "svelte", "gatsby", "@remix-run/react", "@angular/core"}
+    if any(p.endswith((".html", ".htm", ".php", ".astro", ".vue", ".svelte")) for p in lower) or deps & web_markers:
         plats.add("web")
     return sorted(plats)
 
@@ -321,6 +344,7 @@ def scan(root: Path, max_hits: int) -> dict:
     ios_usage: dict[str, list] = {}
     has_privacy_manifest = False
     security_contact: list[str] = []
+    server_configs: list[str] = []
     summary: list[dict] = []
     sectors: dict[str, dict] = {}
     files_scanned = 0
@@ -350,10 +374,16 @@ def scan(root: Path, max_hits: int) -> dict:
             contents_hint["package.json"] = text
         collect_summary(path, rel, root, text, summary)
 
+        is_doc = path.suffix.lower() in DOC_SUFFIXES
+        if path.name == ".htaccess" or path.name in {"nginx.conf", "_redirects", "web.config", "netlify.toml", "vercel.json"}:
+            server_configs.append(rel)
         for lineno, line in enumerate(text.splitlines(), 1):
             if not line.strip():
                 continue
+            skip_signals = is_doc or looks_like_prose(line)
             for sid, cat, label, pat in SIGNALS:
+                if skip_signals:
+                    break
                 m = pat.search(line)
                 if not m:
                     continue
@@ -383,6 +413,10 @@ def scan(root: Path, max_hits: int) -> dict:
 
     platforms = detect_platforms(rel_paths, contents_hint)
     derived = derive(signals, pages, platforms, android_perms, ios_usage, has_privacy_manifest, security_contact)
+    if server_configs and "https_redirect" not in signals:
+        derived.append({"id": "no_https_redirect", "suggested_priority": "P2",
+                        "text": "Server config found (" + ", ".join(server_configs[:3]) + ") without an HTTP→HTTPS redirect rule. Check whether the host forces HTTPS; otherwise add one.",
+                        "matrix_rows": ["3.1"]})
 
     return {
         "tool": "legal-launch-kit/detect.py",
@@ -410,9 +444,11 @@ def collect_summary(path: Path, rel: str, root: Path, text: str, summary: list) 
     name = path.name
     # README at the project root: first heading + first paragraph
     if name.lower().startswith("readme") and path.parent == root:
-        lines = [l.strip() for l in text.splitlines()]
-        head = next((l.lstrip("# ").strip() for l in lines if l.startswith("#")), "")
-        para = next((l for l in lines if l and not l.startswith(("#", "!", "[", "<", "```", "|", "-", "*"))), "")
+        skip_heads = {"contents", "table of contents", "içindekiler", "index", "toc"}
+        lines = [re.sub(r"<[^>]+>", "", l).strip() for l in text.splitlines()]
+        head = next((l.lstrip("# ").strip() for l in lines
+                     if l.startswith("#") and l.lstrip("# ").strip().replace("İ", "i").lower() not in skip_heads), "")
+        para = next((l for l in lines if len(l) > 20 and not l.startswith(("#", "!", "[", "```", "|", "-", "*", ">"))), "")
         if head or para:
             summary.append({"source": rel, "field": "readme", "value": (head + " — " + para)[:300]})
         return

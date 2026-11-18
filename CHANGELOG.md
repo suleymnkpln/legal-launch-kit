@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.1 — 2026-11-18
+First real-world test (a Next.js studio website) removed false positives:
+- Prose lines (privacy texts, translations) and Markdown docs no longer trigger code signals.
+- Payment gateways need word boundaries (`hero-stripes` is not Stripe).
+- Platform detection reads package.json dependencies (`export` is not Expo).
+- Birth-date detection only matches field identifiers; generic Turkish words removed from social/newsletter/review/dating patterns.
+- New check: server config without an HTTP→HTTPS redirect rule.
+- Better product summary from README (HTML stripped, table-of-contents headings skipped) and terms-page detection from nav arrays.
+
 ## 0.3.0 — 2026-11-18
 - `--fail-on P0|P1|P2|P3` for CI: exit code 1 when blockers are found; GitHub Actions example in README.
 - Turkish templates: distance sales contract, terms of use, account deletion page.
