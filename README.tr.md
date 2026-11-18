@@ -25,6 +25,11 @@ Türkiye 🇹🇷 · AB 🇪🇺 · ABD 🇺🇸 · App Store · Google Play
 | 🔎 **Tarayıcı** | `detect.py` kodunu (web, Flutter, Android, iOS, React Native) tarar. Takip kodlarını, reklam SDK'larını, üyeliği, ödemeyi, yapay zekâyı, izinleri ve yasal sayfaları `dosya:satır` kanıtıyla listeler | Geliştiriciler |
 | 🤖 **Agent skill** | `legal-launch-audit` taramayı ve matrisi öncelik sıralı bir denetim raporuna (✅ ❌ ⚠️ ➖ ❓ 🗑️) çevirir, onay verirsen düzeltir | Yapay zekâ kod asistanı kullananlar |
 
+<p align="center">
+  <img src="assets/tanitim-tr.png" width="49%" alt="legal-launch-kit tanıtım">
+  <img src="assets/ornek-rapor-tr.png" width="49%" alt="Örnek yasal yayın denetimi raporu">
+</p>
+
 ## Hızlı başlangıç
 
 ### 1. Sadece kontrol listesi (kurulum yok)
@@ -39,7 +44,7 @@ Türkiye 🇹🇷 · AB 🇪🇺 · ABD 🇺🇸 · App Store · Google Play
 ### 2. Projeni tara
 
 ```bash
-git clone https://github.com/<kullanici>/legal-launch-kit
+git clone https://github.com/suleymnkpln/legal-launch-kit
 python3 legal-launch-kit/skills/legal-launch-audit/scripts/detect.py proje/klasorun
 ```
 
@@ -54,7 +59,7 @@ Skill, açık **Agent Skills** formatında (`SKILL.md` + referanslar + betik). A
 **Tek komutla kurulum:**
 
 ```bash
-npx skills add <kullanici>/legal-launch-kit
+npx skills add suleymnkpln/legal-launch-kit
 ```
 
 **Veya klasörü kopyala:**

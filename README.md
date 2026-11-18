@@ -29,6 +29,11 @@ Most "legal checklist for your website" posts give everyone the same 20 items. T
 | 🔎 **Detector** | `detect.py` scans your code (web, Flutter, Android, iOS, React Native) for trackers, ad SDKs, accounts, payments, AI, permissions and legal pages, with `file:line` evidence | Developers |
 | 🤖 **Agent skill** | `legal-launch-audit` turns the scan + matrix into a prioritised audit report (✅ ❌ ⚠️ ➖ ❓ 🗑️) and, after your approval, fixes | Anyone using an AI coding agent |
 
+<p align="center">
+  <img src="assets/overview-en.png" width="49%" alt="legal-launch-kit overview">
+  <img src="assets/sample-report-en.png" width="49%" alt="Sample legal launch audit report">
+</p>
+
 ## Quick start
 
 ### 1. Just the checklist (no install)
@@ -45,7 +50,7 @@ Open the checklist that matches your project:
 ### 2. Scan your project
 
 ```bash
-git clone https://github.com/<you>/legal-launch-kit
+git clone https://github.com/suleymnkpln/legal-launch-kit
 python3 legal-launch-kit/skills/legal-launch-audit/scripts/detect.py path/to/your-project
 ```
 
@@ -74,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: git clone --depth 1 https://github.com/<you>/legal-launch-kit /tmp/llk
+      - run: git clone --depth 1 https://github.com/suleymnkpln/legal-launch-kit /tmp/llk
       - run: python3 /tmp/llk/skills/legal-launch-audit/scripts/detect.py . --fail-on P0
 ```
 
@@ -85,7 +90,7 @@ The skill uses the open **Agent Skills** format (`SKILL.md` + references + scrip
 **One command (any supported agent):**
 
 ```bash
-npx skills add <you>/legal-launch-kit
+npx skills add suleymnkpln/legal-launch-kit
 ```
 
 **Or copy the folder** into your agent's skills directory:
